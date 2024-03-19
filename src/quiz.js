@@ -16,7 +16,7 @@ class Quiz {
   }
 
   shuffleQuestions() {
-    const randomQuestions = this.questions.sort((a, b) => 0.5 - Math.random());
+    const randomQuestion = this.questions.sort((a, b) => 0.5 - Math.random());
   }
 
   checkAnswer(answer) {
@@ -32,5 +32,24 @@ class Quiz {
     } else {
       return true;
     }
+  }
+
+  filterQuestionsByDifficulty(difficulty) {
+    if (typeof difficulty !== "number" || difficulty < 1 || difficulty > 3) {
+      return;
+    }
+
+    this.questions = this.questions.filter((currentQuestion) => {
+      return currentQuestion.difficulty === difficulty;
+    });
+  }
+  averageDifficulty() {
+    const difficultySum = this.questions.reduce(
+      (accumulator, currentQuestion) => {
+        return accumulator + currentQuestion.difficulty;
+      },
+      0
+    );
+    return difficultySum / this.questions.length;
   }
 }
