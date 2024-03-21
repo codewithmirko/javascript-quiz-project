@@ -71,7 +71,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /************  TIMER  ************/
 
-  let timer;
+  let timer = quizDuration;
+  setInterval(() => {
+    if (timer === 0) {
+      showResults();
+      clearInterval(timer);
+    } else {
+      timer -= 1;
+      const minutes = Math.floor(timer / 60)
+        .toString()
+        .padStart(2, "0");
+      const seconds = (timer % 60).toString().padStart(2, "0");
+
+      console.log("timer");
+      document.querySelector(
+        "#timeRemaining"
+      ).innerText = `${minutes}:${seconds}`;
+    }
+  }, 1000);
 
   /************  EVENT LISTENERS  ************/
 
@@ -215,7 +232,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function showResults() {
     // YOUR CODE HERE:
-    //
+    clearInterval(timer);
+
     // 1. Hide the quiz view (div#quizView)
     quizView.style.display = "none";
 
@@ -236,5 +254,6 @@ document.addEventListener("DOMContentLoaded", () => {
     quiz.correctAnswers = 0;
     quiz.shuffleQuestions();
     showQuestion();
+    timer = quizDuration;
   });
 });
